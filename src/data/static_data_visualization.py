@@ -12,7 +12,7 @@ import kaleido
 
 
 # Data Understanding
-# Initially we are reading the data related to Corona cases and vacctination provided by our-world-in-data. To be up-to-date we directly assign the dataset URL so that when ever we run this cell latest updated data is pulled.
+# Initially we are reading the data related to Corona cases and vaccination provided by our-world-in-data. To be up-to-date we directly assign the dataset URL so that when ever we run this cell latest updated data is pulled.
 
 # collecting the data
 csv_url="https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data.csv"
@@ -40,15 +40,15 @@ print('3. The total number cases all over the world till now:',df.total_cases.ma
 print('4. Total number of people fully vaccinated till now are:',len(df.people_fully_vaccinated.unique()))
 
 
-# ..........................................................................................................................................................................................................................
+# ................................................................................................................................................................................
 
-# Data Preperation
-# Different people follow different steps of data preperation
+# Data Preparation
+# Different people follow different steps of data preparation
 
 # Select Data
 
-# We will select the data that we are intrested to work with from the above read dataset which makes data handling easy
-# We will be only working with the data three countries but before that let's have some fun by visulaizing all the countries in the form of art by using WorldCLoud library. The text size of each country depends on how many times the country is repeated in the dataset.
+# We will select the data that we are interested to work with from the above read dataset which makes data handling easy
+# We will be only working with the data three countries but before that let's have some fun by visualizing all the countries in the form of art by using WorldCLoud library. The text size of each country depends on how many times the country is repeated in the dataset.
 
 wordCloud = WordCloud(
     background_color='white',
@@ -97,11 +97,11 @@ df_total_list.people_vaccinated = df_total_list.people_vaccinated.astype(int)
 
 # Data Visualization
 #We have prepared the data that we want to analyze and now its time to visualize the desired data
-# We will try to plot an bar graph showing total cases resgistered till now in the countries that we selected above.
+# We will try to plot an bar graph showing total cases registered till now in the countries that we selected above.
 
 total_cases_country_wise={} # initially an empty dictionary is assigned
 for location in df_total_list.location.unique():       # to loop among the list of countries we selected above
-#for location in df.location.unique():                 # to loop amaong all the countries in the dataset
+#for location in df.location.unique():                 # to loop among all the countries in the dataset
     total_corona_cases = 0
     for i in range(len(df)) :
         if df.location[i] == location:
@@ -137,7 +137,7 @@ fig2.write_image("COVID-19 infection rate.jpeg")
 fig2.show()
 
 
-# We will visualize the rate of corona cases increse with respective to population in *fig3*
+# We will visualize the rate of corona cases increase with respective to population in *fig3*
 df_total_list['total_infection_mean']=df_total_list['total_cases']/df_total_list['population']
 
 fig3=px.line(df_total_list, x= "date", y= "total_infection_mean",color='location', title= "COVID-19 infection rate w.r.t population")
@@ -147,11 +147,11 @@ fig3.write_image("COVID-19 infection rate w.r.t population.jpeg")
 fig3.show()
 
 
-# We can also visualize the vaccination rate same as corona cases fot the countries selected. Before plotting we will again replace 0.0 with NaN by loading dataset again and then fill the Nan values with the preceeding number using forwardfill(*ffill*) in pandas
+# We can also visualize the vaccination rate same as corona cases fot the countries selected. Before plotting we will again replace 0.0 with NaN by loading dataset again and then fill the Nan values with the preceding number using forwardfill(*ffill*) in pandas
 # replace the nan values again with 0 
 #df_total_list['people_fully_vaccinated'].replace(to_replace=0.0, value=np.nan)#, method='ffill') #TODO
 df_total_list=df[df_countries]
-# now filling the Nan values with the forward/pre values in column so that while visualization line doesnot again go to zero line
+# now filling the Nan values with the forward/pre values in column so that while visualization line doesn't again go to zero line
 df_total_list.loc[:,['people_fully_vaccinated']]= df_total_list.loc[:,['people_fully_vaccinated']].ffill()
 df_total_list['total_vaccination_mean']=df_total_list['people_fully_vaccinated']/df_total_list['population']
 
